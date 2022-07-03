@@ -14,8 +14,8 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-// let roomId = prompt("Please enter room ID");
-let roomId = 999;
+let roomId = prompt("Please enter room ID");
+// let roomId = 999;
 let roomRef = firebase.database().ref(`rooms/${roomId}`);
 
 
