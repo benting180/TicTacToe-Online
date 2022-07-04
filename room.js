@@ -1,5 +1,6 @@
 const tiles = Array.from(document.querySelectorAll('.tile'));
 const playerDisplay = document.querySelector('.display-player');
+const roomIdDisplay = document.querySelector('.display-room-id');
 const resetButton = document.querySelector('#reset');
 const announcer = document.querySelector('.announcer');
 
@@ -14,9 +15,16 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-let roomId = prompt("Please enter room ID");
+
+let roomId = window.localStorage.getItem("roomId");
+console.log('room Id: ', roomId);
+roomIdDisplay.innerText = roomId;
+// let roomId = prompt("Please enter room ID");
 // let roomId = 999;
 let roomRef = firebase.database().ref(`rooms/${roomId}`);
+let lobbyRef = firebase.database().ref(`lobby/${roomId}`);
+let numberPlayer = null;
+
 
 
 let isMyTurn = false;
@@ -258,11 +266,27 @@ function checkStartGame() {
     });
 }
 
+// console.log('current numberPlayer: ', numberPlayer)
+// numberPlayer = numberPlayer + 1;
+// lobbyRef.update({numberPlayer: numberPlayer});
+// console.log('updated numberPlayer to ', numberPlayer);
+function updateNumberPlayer () {
+    lobbyRef.get().then((snapshot) => {
+        let doc = snapshot.val();
+        numberPlayer = doc.numberPlayer;
+        numberPlayer = numberPlayer + 1;
+        lobbyRef.update({numberPlayer: numberPlayer});
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
 (function () {
 
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             playerId = user.uid;
+            updateNumberPlayer();
             checkStartGame();
         }
     })
