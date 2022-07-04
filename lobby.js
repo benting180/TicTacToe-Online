@@ -9,7 +9,7 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-let lobbyRef = firebase.database().ref(`lobby`);
+let lobbyRef = firebase.database().ref(`rooms`);
 
 document.querySelector("#input").addEventListener("keydown", (event) => {
     if(event.key === "Enter"){
@@ -24,35 +24,24 @@ document.querySelector("#add_room").addEventListener("click", () => {
     addRoom(input.value);
 });
 
-
-
 function addRoom (id) {
     // append new room the db value lobby
 
     // check if room already exist
     lobbyRef.get().then((snapshot) => {
         let doc = snapshot.val();
-        if (!snapshot.exists()) {
-            console.log('snapshot not exist...?')
-            lobbyRef.set({123: {numberPlayer:1}})
-        }
-        if (doc.hasOwnProperty(id)) {
+        if (doc !== null && doc.hasOwnProperty(id)) {
             console.log('room already exist')
         } else {
-            console.log("legal room creation");
             lobbyRef.update({
                 [id]: {
-                    numberPlayer: 0,
+                    numberPlayer:0
                 }
             })
-            // rediect to room page
-
         }
     }).catch((error) => {
         console.error(error);
     });
-    lobbyRef.get
-
 }
 
 lobbyRef.on("value", (snapshot) => {
@@ -74,7 +63,9 @@ lobbyRef.on("value", (snapshot) => {
     
 
     document.querySelector("#to_do_list").textContent = ''; // remove all item
-
+    if (lobby === null) {
+        return 
+} 
     Object.keys(lobby).forEach(function(key) {
         roomId = key;
         roomInfo = lobby[roomId];
@@ -121,6 +112,7 @@ lobbyRef.on("value", (snapshot) => {
         document.querySelector("#to_do_list").appendChild(item);
     })
     // document.querySelector("#input").value = "";
+    
 })
   
 // addItem = (input) => {

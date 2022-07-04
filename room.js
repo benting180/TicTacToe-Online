@@ -22,7 +22,7 @@ roomIdDisplay.innerText = roomId;
 // let roomId = prompt("Please enter room ID");
 // let roomId = 999;
 let roomRef = firebase.database().ref(`rooms/${roomId}`);
-let lobbyRef = firebase.database().ref(`lobby/${roomId}`);
+let lobbyRef = firebase.database().ref(`rooms/${roomId}`);
 let numberPlayer = null;
 
 
@@ -225,12 +225,12 @@ function checkStartGame() {
         if (snapshot.exists()) {
             let doc = snapshot.val();
                 // if no player
-                if (doc !== null && !doc.hasOwnProperty('numberPlayer')) {
+                if (doc !== null && doc.numberPlayer === 0) {
                     // player enter the room first use 'X'
                     mySymbol = 'X';
                     currentPlayer = 'X'
                     roomRef.update({
-                        playerX: playerId
+                        numberPlayer: 1
                     })
                 } else if (doc.numberPlayer === 1) {
                     // already have player
@@ -265,6 +265,33 @@ function checkStartGame() {
         }
     });
 }
+function leaveRoom () {
+    // lobby numberPlayer - 1
+    numberPlayer = numberPlayer - 1;
+    if (numberPlayer === 0) {
+        // destroy the room in lobby
+        lobbyRef.remove();
+    } else {
+        console.log(numberPlayer);
+        lobbyRef.update({
+            numberPlayer: numberPlayer,
+            isGameActive: false
+        })
+    }
+    
+    
+    // room 
+    // resetBoard (or reset when new user enter)
+
+    // numberPlayer - 1
+    // isGameActive false
+
+    // remove localStorage
+
+    return
+}
+window.onbeforeunload = leaveRoom;
+
 
 // console.log('current numberPlayer: ', numberPlayer)
 // numberPlayer = numberPlayer + 1;
