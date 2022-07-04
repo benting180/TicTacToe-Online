@@ -75,15 +75,19 @@ lobbyRef.on("value", (snapshot) => {
         const div = document.createElement("div");
         const checkIcon = document.createElement("i");
         const text = document.createElement("p");
+        const button = document.createElement("button");
+        button.classList = "enter_button";
+        button.innerText = 'Enter';
+        button.appendChild(checkIcon)
+        checkIcon.classList = "fas fa-check-square";
+        checkIcon.style.color = "lightgray";
     
         item.className = "item";
         text.textContent = msg;
         text.setAttribute("roomId", roomId);
         text.setAttribute("numberPlayer", roomInfo.numberPlayer);
-    
-        checkIcon.className = "fas fa-check-square";
-        checkIcon.style.color = "lightgray";
-        checkIcon.addEventListener("click", (event) => {
+
+        button.addEventListener("click", (event) => {
             let paragraph = event.target.parentElement.parentElement.firstChild;
             let numberPlayer = paragraph.getAttribute('numberPlayer');
             
@@ -104,7 +108,8 @@ lobbyRef.on("value", (snapshot) => {
             
             // console.log('redirection')
         })
-        div.appendChild(checkIcon);
+
+        div.appendChild(button)
     
         item.appendChild(text);
         item.appendChild(div);
@@ -115,26 +120,3 @@ lobbyRef.on("value", (snapshot) => {
     
 })
   
-// addItem = (input) => {
-//     const item = document.createElement("div");
-//     const div = document.createElement("div");
-//     const checkIcon = document.createElement("i");
-//     const trashIcon = document.createElement("i");
-//     const text = document.createElement("p");
-  
-//     item.className = "item";
-//     text.textContent = input;
-  
-//     checkIcon.className = "fas fa-check-square";
-//     checkIcon.style.color = "lightgray";
-//     checkIcon.addEventListener("click", () => {
-//       checkIcon.style.color = "limegreen";
-//     })
-//     div.appendChild(checkIcon);
-  
-//     item.appendChild(text);
-//     item.appendChild(div);
-  
-//     document.querySelector("#to_do_list").appendChild(item);
-//     document.querySelector("#input").value = "";
-// }
