@@ -23,6 +23,7 @@ roomIdDisplay.innerText = roomId;
 // let roomId = 999;
 let roomRef = firebase.database().ref(`rooms/${roomId}`);
 let lobbyRef = firebase.database().ref(`rooms/${roomId}`);
+let chatRef = firebase.database().ref(`chat/${roomId}`);
 let numberPlayer = null;
 
 
@@ -216,6 +217,7 @@ function checkStartGame() {
         handleResultValidation();
     })
 
+    listenMessage();
     // triggered when entered a room
     // check enough player to start game
     // 1. if first player, registered user info
