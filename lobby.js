@@ -78,9 +78,9 @@ lobbyRef.on("value", (snapshot) => {
         const button = document.createElement("button");
         button.classList = "enter_button";
         button.innerText = 'Enter';
-        button.appendChild(checkIcon)
-        checkIcon.classList = "fas fa-check-square";
-        checkIcon.style.color = "lightgray";
+        // checkIcon.classList = "fas fa-check-square";
+        // checkIcon.style.color = "lightgray";
+        // button.appendChild(checkIcon)
     
         item.className = "item";
         text.textContent = msg;
@@ -92,8 +92,8 @@ lobbyRef.on("value", (snapshot) => {
             let numberPlayer = paragraph.getAttribute('numberPlayer');
             
             if (numberPlayer <= 1) {
-                _roomId = paragraph.getAttribute('roomId');
-                // console.log(_roomId);
+                _roomId = paragraph.getAttribute('roomid');
+                console.log(_roomId);
                 window.localStorage.setItem("roomId", _roomId);
                 window.location.href = './room.html';
             } else {
