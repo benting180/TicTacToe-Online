@@ -98,6 +98,7 @@ lobbyRef.on("value", (snapshot) => {
                 window.location.href = './room.html';
             } else {
                 console.log('the room is full! not allowed to enter.')
+                alert("The Room is Full! Select others!");
             }
             console.log(paragraph);
             // 1. not allowered to enter room if number of player is already 2
